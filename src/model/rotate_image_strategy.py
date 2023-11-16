@@ -6,7 +6,8 @@ It provides a strategy for rotating images, specifically
 implementing a 90-degree rotation.
 """
 
-from image_strategy import ImageStrategy
+from .image_strategy import ImageStrategy
+
 
 
 class RotateImageStrategy(ImageStrategy):

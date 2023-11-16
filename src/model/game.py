@@ -1,6 +1,7 @@
 from model.direction import Direction
 from model.game_data import GameData
-from model.image_handler import ImageHandler
+from model.image_handler_strategy import ImageHandler
+from model.rotate_image_strategy import RotateImageStrategy
 from model.player import Player
 from model.state import State
 from colorama import Fore, Style
@@ -16,7 +17,8 @@ class Game:
         self.game_data = GameData()
         self.player = Player(self.game_data, self)
         self.current_direction = None
-        self.image_handler = ImageHandler()
+        rotate_strategy = RotateImageStrategy()
+        self.image_handler = ImageHandler(rotate_strategy)
         self.current_zombie_count = 0
         self.state = State.STOPPED
         self.time = 0
