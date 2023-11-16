@@ -5,7 +5,7 @@ from model.database_handler import DatabaseHandler
 from model.direction import Direction
 from model.game import Game
 from model.state import State
-from model.file_handler import FileHandler
+from model.file_handler_factory import FileHandlerFactory
 
 
 class Commands(cmd.Cmd):
@@ -16,7 +16,6 @@ class Commands(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.prompt = ">> "
         self.game = Game()
-        self.file_handler = FileHandler()
         self.database_handler = DatabaseHandler()
         self.args = args
         self.command_methods = {
@@ -305,15 +304,18 @@ class Commands(cmd.Cmd):
         if self.game.state != State.STOPPED:
             try:
                 if method == "pickle":
-                    self.file_handler.save_game_with_pickle(self.game, filename)
+                    pickle_handler = FileHandlerFactory.get_file_handler('pickle')
+                    pickle_handler.save_game(self.game, filename)
                     print(Fore.GREEN + f"Game saved as '{filename}.pkl' using pickle" + Style.RESET_ALL)
                 # William
                 elif method == "shelf":
                     if filename:
-                        self.file_handler.save_game_with_shelve(self.game, filename)
+                        shelve_handler = FileHandlerFactory.get_file_handler('shelve')
+                        shelve_handler.save_game(self.game, filename)
                         print(Fore.GREEN + f"Game saved as '{filename}.shelf' using shelf" + Style.RESET_ALL)
                     else:
-                        self.file_handler.save_game_with_shelve(self.game)
+                        shelve_handler = FileHandlerFactory.get_file_handler('shelve')
+                        shelve_handler.save_game(self.game)
                         print(Fore.GREEN + f"Game saved using shelf." + Style.RESET_ALL)
                 else:
                     print(Fore.RED + "Invalid save method. Use 'pickle' or 'shelf'." + Style.RESET_ALL)
@@ -392,7 +394,8 @@ class Commands(cmd.Cmd):
 
         try:
             if method == "pickle":
-                loaded_game = self.file_handler.load_game_with_pickle()
+                pickle_handler = FileHandlerFactory.get_file_handler('pickle')
+                loaded_game = pickle_handler.load_game(filename)
                 if loaded_game:
                     self.game = loaded_game
                     self.game.image_handler.create_map_image(self.game.game_data.map, self.game.player)
@@ -402,10 +405,9 @@ class Commands(cmd.Cmd):
                     print(Fore.RED + "Could not load game from selected file" + Style.RESET_ALL)
 
             elif method == "shelf":
-                if filename:
-                    loaded_game = self.file_handler.load_game_with_shelve(filename)
-                else:
-                    loaded_game = self.file_handler.load_game_with_shelve()
+                shelve_handler = FileHandlerFactory.get_file_handler('shelve')
+                loaded_game = shelve_handler.load_game(filename)
+
                 if loaded_game:
                     self.game = loaded_game
                     self.game.image_handler.create_map_image(self.game.game_data.map, self.game.player)
