@@ -3,7 +3,10 @@ from unittest.mock import patch, mock_open, MagicMock
 from pathlib import Path
 import pickle
 import os
-from model.file_handler import FileHandler
+from model.file_handler_factory import FileHandlerFactory
+from model.json_file_handler import JSONFileHandler
+from model.pickle_file_handler import PickleFileHandler
+from model.shelve_file_handler import ShelveFileHandler
 from model.game_data import GameData
 
 
