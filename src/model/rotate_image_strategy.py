@@ -9,7 +9,6 @@ implementing a 90-degree rotation.
 from .image_strategy import ImageStrategy
 
 
-
 class RotateImageStrategy(ImageStrategy):
     """Concrete strategy class for rotating an image."""
 

@@ -10,8 +10,6 @@ class TestFileHandler(unittest.TestCase):
 
     @patch('builtins.open', new_callable=mock_open,
            read_data='{"key": "value"}')
-
-
     def test_load_data_from_json(self, mock_file):
         # Setup
         handler = FileHandler()
