@@ -12,12 +12,14 @@ from image_strategy import ImageStrategy
 class RotateImageStrategy(ImageStrategy):
     """Concrete strategy class for rotating an image."""
 
-    def process_image(self, image):
+    def process_image(self, image, tile):
         """
         Rotates the given image by 90 degrees.
 
         :param image: Image object to be rotated.
+        :param tile:
         :return: Rotated Image object.
         """
-        rotated_image = image.rotate(90)
-        return rotated_image
+        rotation_factor = tile.rotate_factor
+        angle = rotation_factor * 90
+        return image.rotate(angle)

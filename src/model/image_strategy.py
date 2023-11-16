@@ -17,11 +17,12 @@ class ImageStrategy(ABC):
     """
 
     @abstractmethod
-    def process_image(self, image):
+    def process_image(self, image, tile):
         """
         Process an image according to the strategy.
 
         :param image: Image object to be processed.
+        :param tile:
         :return: Processed Image object.
         """
         pass
