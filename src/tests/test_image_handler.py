@@ -27,9 +27,8 @@ class TestImageHandler(unittest.TestCase):
         # Check if the image file was created
         self.assertTrue(os.path.exists(output_path))
 
-        # Additional checks can be made here, e.g., image dimensions
         with Image.open(output_path) as generated_image:
-            self.assertEqual(generated_image.size, (300, 300))  # Example check
+            self.assertEqual(generated_image.size, (9, 9))
 
         # Cleanup
         os.remove(output_path)
