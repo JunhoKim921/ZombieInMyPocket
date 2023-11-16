@@ -9,7 +9,10 @@ from model.game_data import GameData
 
 class TestFileHandler(unittest.TestCase):
 
-    @patch('builtins.open', new_callable=mock_open, read_data='{"key": "value"}')
+    @patch('builtins.open', new_callable=mock_open,
+           read_data='{"key": "value"}')
+
+
     def test_load_data_from_json(self, mock_file):
         # Setup
         handler = FileHandler()
@@ -19,14 +22,16 @@ class TestFileHandler(unittest.TestCase):
         result = handler.load_data_from_json(filename)
 
         # Assert
-        expected_file_path = str(handler.root_dir / "data" / (filename + ".json"))
+        expected_file_path = str(handler.root_dir / "data" /
+                                 (filename + ".json"))
         mock_file.assert_called_with(expected_file_path)
         self.assertEqual(result, {"key": "value"})
 
     @patch('pickle.dump')
-    @patch('builtins.open', new_callable=mock_open)
+    @patch('builtins.open', new_callable = mock_open)
     @patch('tkinter.filedialog.asksaveasfilename', return_value="testpath.pkl")
-    def test_save_game_with_pickle(self, mock_asksaveasfilename, mock_open, mock_pickle_dump):
+    def test_save_game_with_pickle(self, mock_asksaveasfilename,
+                                   mock_open, mock_pickle_dump):
         # Setup
         handler = FileHandler()
         game_data = {"level": 10, "score": 100}  # Example game data
@@ -36,7 +41,8 @@ class TestFileHandler(unittest.TestCase):
         handler.save_game_with_pickle(game_data, filename)
 
         # Assert
-        mock_asksaveasfilename.assert_called_with(initialfile=filename, defaultextension=".pkl",
+        mock_asksaveasfilename.assert_called_with(initialfile=filename,
+                                                  defaultextension=".pkl",
                                                   filetypes=[("Pickle Files", "*.pkl")])
         mock_open.assert_called_with("testpath.pkl", "wb")
         mock_pickle_dump.assert_called_with(game_data, mock_open())
@@ -44,8 +50,10 @@ class TestFileHandler(unittest.TestCase):
 
 class TestFileHandlerWithShelve(unittest.TestCase):
 
-    @patch('tkinter.filedialog.asksaveasfilename', return_value="testpath.shelf")
-    def test_save_game_with_shelve_file_dialog_interaction(self, mock_asksaveasfilename):
+    @patch('tkinter.filedialog.asksaveasfilename',
+           return_value="testpath.shelf")
+    def test_save_game_with_shelve_file_dialog_interaction(self,
+                                                           mock_asksaveasfilename):
         # Setup
         handler = FileHandler()
         game_data = {"level": 20, "score": 200}
