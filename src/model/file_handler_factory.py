@@ -1,4 +1,3 @@
-# file_handler_factory.py
 from model.json_file_handler import JSONFileHandler
 from model.pickle_file_handler import PickleFileHandler
 from model.shelve_file_handler import ShelveFileHandler
